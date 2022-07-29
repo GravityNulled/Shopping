@@ -1,3 +1,5 @@
+using System.Text.Json.Serialization;
+
 namespace StudentsApi.Models
 {
     public class Student
@@ -6,7 +8,6 @@ namespace StudentsApi.Models
         public string Name { get; set; } = null!;
         public DateTime DateOfBirth { get; set; }
         public long PhoneNumber { get; set; }
-        public ICollection<Unit> Units { get; set; } = null!;
-        public Identification IDNumbers { get; set; } = null!;
+        public Identification IdNumber { get; set; } = null!;
     }
 }

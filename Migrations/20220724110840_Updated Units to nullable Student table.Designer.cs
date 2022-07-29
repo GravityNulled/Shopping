@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentsApi.Data;
 
@@ -10,9 +11,10 @@ using StudentsApi.Data;
 namespace StudentsApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220724110840_Updated Units to nullable Student table")]
+    partial class UpdatedUnitstonullableStudenttable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.7");
@@ -82,7 +84,19 @@ namespace StudentsApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("CourseName")
+                    b.Property<string>("ComputerApplications")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Csharp")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DataBase")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Mathematics")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -91,10 +105,40 @@ namespace StudentsApi.Migrations
                     b.ToTable("Units");
                 });
 
+            modelBuilder.Entity("StudentUnit", b =>
+                {
+                    b.Property<int>("StudentsId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UnitsId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("StudentsId", "UnitsId");
+
+                    b.HasIndex("UnitsId");
+
+                    b.ToTable("StudentUnit");
+                });
+
+            modelBuilder.Entity("TeacherUnit", b =>
+                {
+                    b.Property<int>("TeachersId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("UnitsId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("TeachersId", "UnitsId");
+
+                    b.HasIndex("UnitsId");
+
+                    b.ToTable("TeacherUnit");
+                });
+
             modelBuilder.Entity("StudentsApi.Models.Identification", b =>
                 {
                     b.HasOne("StudentsApi.Models.Student", "Student")
-                        .WithOne("IdNumber")
+                        .WithOne("IDNumbers")
                         .HasForeignKey("StudentsApi.Models.Identification", "StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -102,9 +146,39 @@ namespace StudentsApi.Migrations
                     b.Navigation("Student");
                 });
 
+            modelBuilder.Entity("StudentUnit", b =>
+                {
+                    b.HasOne("StudentsApi.Models.Student", null)
+                        .WithMany()
+                        .HasForeignKey("StudentsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StudentsApi.Models.Unit", null)
+                        .WithMany()
+                        .HasForeignKey("UnitsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("TeacherUnit", b =>
+                {
+                    b.HasOne("StudentsApi.Models.Teacher", null)
+                        .WithMany()
+                        .HasForeignKey("TeachersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("StudentsApi.Models.Unit", null)
+                        .WithMany()
+                        .HasForeignKey("UnitsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("StudentsApi.Models.Student", b =>
                 {
-                    b.Navigation("IdNumber")
+                    b.Navigation("IDNumbers")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

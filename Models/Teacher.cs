@@ -6,6 +6,6 @@ namespace StudentsApi.Models
         public string Name { get; set; } = null!;
         public long PhoneNumber { get; set; }
 
-        public ICollection<Unit> Units { get; set; } = null!;
+        // public ICollection<Unit> Units { get; set; } = null!;
     }
 }

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StudentsApi.Data;
 
@@ -10,9 +11,10 @@ using StudentsApi.Data;
 namespace StudentsApi.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220725075836_StudentIdRelationship")]
+    partial class StudentIdRelationship
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.7");
@@ -82,7 +84,19 @@ namespace StudentsApi.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<string>("CourseName")
+                    b.Property<string>("ComputerApplications")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Csharp")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("DataBase")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Mathematics")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -94,7 +108,7 @@ namespace StudentsApi.Migrations
             modelBuilder.Entity("StudentsApi.Models.Identification", b =>
                 {
                     b.HasOne("StudentsApi.Models.Student", "Student")
-                        .WithOne("IdNumber")
+                        .WithOne("IDNumbers")
                         .HasForeignKey("StudentsApi.Models.Identification", "StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -104,7 +118,7 @@ namespace StudentsApi.Migrations
 
             modelBuilder.Entity("StudentsApi.Models.Student", b =>
                 {
-                    b.Navigation("IdNumber")
+                    b.Navigation("IDNumbers")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618
