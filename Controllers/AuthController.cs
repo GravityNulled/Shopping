@@ -65,6 +65,36 @@ namespace StudentsApi.Controllers
             });
         }
 
+
+        [HttpPost]
+        [Route("Login")]
+        public async Task<ActionResult> Login(UserLoginDto userLogin)
+        {
+            if (ModelState.IsValid)
+            {
+                var user_exist = await _userManager.FindByEmailAsync(userLogin.Email);
+                if (user_exist == null)
+                {
+                    return BadRequest(new AuthResult()
+                    {
+                        Error = "Register Account to Continue",
+                        Result = false
+                    });
+                }
+                var checkPass = await _userManager.CheckPasswordAsync(user_exist, userLogin.Password);
+                if (!checkPass) return BadRequest(new AuthResult() { Error = "Incorrect Credentials", Result = false });
+                var token = GenerateToken(user_exist);
+                return Ok(new AuthResult() { Token = token, Result = true });
+
+            }
+            return BadRequest(new AuthResult()
+            {
+                Error = "Bad PayLoad",
+                Result = false
+            });
+        }
+
+
         [NonAction]
         public string GenerateToken(IdentityUser user)
         {
