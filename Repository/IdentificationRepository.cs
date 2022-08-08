@@ -14,14 +14,14 @@ namespace StudentsApi.Repository
         }
         public async Task<Identification> CreateAsync(Identification identification)
         {
-            _dbContext.IDNumber.Add(identification);
+            _dbContext.IdNumber.Add(identification);
             await _dbContext.SaveChangesAsync();
             return identification;
         }
 
         public async Task<Identification> Delete(int id)
         {
-            var identification = await _dbContext.IDNumber.FindAsync(id);
+            var identification = await _dbContext.IdNumber.FindAsync(id);
             if (identification != null)
             {
                 _dbContext.Remove(identification);
@@ -33,13 +33,13 @@ namespace StudentsApi.Repository
 
         public async Task<IEnumerable<Identification>> GetAll()
         {
-            var ids = await _dbContext.IDNumber.ToListAsync();
+            var ids = await _dbContext.IdNumber.ToListAsync();
             return ids;
         }
 
         public async Task<Identification> GetByIdAsync(int id)
         {
-            var identification = await _dbContext.IDNumber.FindAsync(id);
+            var identification = await _dbContext.IdNumber.FindAsync(id);
             if (identification != null) return identification;
             return new Identification();
         }
