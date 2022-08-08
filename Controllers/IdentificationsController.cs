@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using StudentsApi.Dtos;
 using StudentsApi.Interfaces;
@@ -8,6 +9,7 @@ namespace StudentsApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class IdentificationsController : ControllerBase
     {
         private readonly IIdentificationRepository _identificationRepository;
