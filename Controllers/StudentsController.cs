@@ -7,6 +7,7 @@ using StudentsApi.Models;
 namespace StudentsApi.Controllers
 {
     [Route("api/[Controller]")]
+    [ApiController]
     public class StudentsController : ControllerBase
     {
         private readonly IStudentRepository _studentsRepository;
@@ -17,6 +18,7 @@ namespace StudentsApi.Controllers
             _mapper = mapper;
             _studentsRepository = studentsRepository;
         }
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StudentDto>>> GetAll()
         {
@@ -24,6 +26,7 @@ namespace StudentsApi.Controllers
             var studentDto = _mapper.Map<IEnumerable<StudentDto>>(students);
             return Ok(studentDto);
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<StudentDto>> GetById(int id)
         {
@@ -40,7 +43,6 @@ namespace StudentsApi.Controllers
             var student = _mapper.Map<Student>(studentDto);
             var studentPosted = await _studentsRepository.CreateStudent(student);
             var studentDb = _mapper.Map<StudentDto>(studentPosted);
-            // await _studentsRepository.CreateStudent(student);
             return CreatedAtAction("GetAll", new { student.Id }, studentDto);
         }
 

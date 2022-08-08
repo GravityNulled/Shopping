@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using StudentsApi.Data;
 using StudentsApi.Interfaces;
@@ -26,12 +22,16 @@ namespace StudentsApi.Repository
         public async Task<Identification> Delete(int id)
         {
             var identification = await _dbContext.IDNumber.FindAsync(id);
-            _dbContext.Remove(identification);
-            await _dbContext.SaveChangesAsync();
-            return identification;
+            if (identification != null)
+            {
+                _dbContext.Remove(identification);
+                await _dbContext.SaveChangesAsync();
+                return identification;
+            }
+            return new Identification();
         }
 
-        public async Task<ICollection<Identification>> GetAll()
+        public async Task<IEnumerable<Identification>> GetAll()
         {
             var ids = await _dbContext.IDNumber.ToListAsync();
             return ids;
@@ -40,7 +40,8 @@ namespace StudentsApi.Repository
         public async Task<Identification> GetByIdAsync(int id)
         {
             var identification = await _dbContext.IDNumber.FindAsync(id);
-            return identification;
+            if (identification != null) return identification;
+            return new Identification();
         }
     }
 }

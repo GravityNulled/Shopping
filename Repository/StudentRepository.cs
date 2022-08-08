@@ -29,7 +29,11 @@ namespace StudentsApi.Repository
         public async Task<Student> GetByIdAsync(int id)
         {
             var student = await _dbContext.Students.FindAsync(id);
-            return student;
+            if (student != null)
+            {
+                return student;
+            }
+            return new Student();
         }
 
         public async Task<Student> CreateStudent(Student student)
